@@ -1,0 +1,9 @@
+{% extends layout %}
+{% block  content %}
+{% for meep in meeps %}
+<h3>{{meep.body}}</h3>
+<p>{{meep.description}}</p>
+<p class="fs-6 fw-light">Created: {{meep.created_at}}</p>
+<p class="fs-6 fw-light">Updated: {{meep.updated_at}}</p>
+{% endfor %}
+{% endblock %}

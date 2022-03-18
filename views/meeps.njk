@@ -1,8 +1,32 @@
 {% extends layout %}
 {% block  content %}
 <main class="container">
+    <div>
+    <form action="/meeps" method="post">
+    <label for="meep"></label>
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" name="meep" id="meep" value="{{ meep }}" placeholder="Meep a meep" required>
+            <input type="text" class="form-control" name="description" id="description" value="{{ description }}" placeholder="Meep a meep meeption" required>
+            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Mep meep</button>
+        </div>
+    </form>
+</div>
     {% for meep in meeps %}
-    <h1>{{meep.body}}</h1>
+    <li class="list-group-item">
+        <div class="d-flex justify-content-between">
+    <h3>{{meep.body}}</h3>
+    <a href="/meeps/{{meep.id}}/delete"><button type="button" class="btn btn-outline-danger">Demeep</button></a>
+    </div>
+    <a href="/meeps/{{meep.id}}"><button type="button" class="btn btn-primary">meeption</button></a>
+    
+    </div>
+    </li>
     {% endfor %}
+    <li class="list-group-item">
+        <div class="d-flex align-items-center">
+            <strong>Meeping more meeps...</strong>
+            <div class="spinner-border ms-auto spinner-border m-2" role="status" aria-hidden="true"></div>
+        </div>
+    </li>
 </main>
 {% endblock %}
