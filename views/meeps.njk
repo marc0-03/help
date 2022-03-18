@@ -1,0 +1,8 @@
+{% extends layout %}
+{% block  content %}
+<main class="container">
+    {% for meep in meeps %}
+    <h1>{{meep.body}}</h1>
+    {% endfor %}
+</main>
+{% endblock %}
