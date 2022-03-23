@@ -74,6 +74,11 @@ router.post('/', async (req, res, next) => {
 });
 
 router.get('/:id', async (req, res, next) => {
+    const flash = req.session.flash;
+    const flashcolor = req.session.flashcolor;
+    console.log(flash);
+    req.session.flash = null;
+    req.session.flashcolor = null;
     const id = req.params.id;
 
     if (isNaN(req.params.id)) {
@@ -87,8 +92,8 @@ router.get('/:id', async (req, res, next) => {
         .query('SELECT * FROM meeps WHERE id = ?', [id])
         .then(([rows, fields]) => {
             res.render('mep.njk', {
-                flash: null,
-                flashcolor: null,
+                flash: flash,
+                flashcolor: flashcolor,
                 meeps: rows,
                 title:  'meeps',
                 layout: 'layout.njk'
@@ -129,5 +134,73 @@ router.get('/:id/delete', async (req, res, next) => {
             })
         })
 })
+
+router.get('/:id/edit', async (req, res, next) => {
+    const flash = req.session.flash;
+    const flashcolor = req.session.flashcolor;
+    console.log(flash);
+    req.session.flash = null;
+    req.session.flashcolor = null;
+    const id = req.params.id;
+
+    if (isNaN(req.params.id)) {
+        res.status(400).json({
+            meep : {
+                error: 'Bad request'
+            }
+        })
+    } else {
+        await pool.promise()
+        .query('SELECT * FROM meeps WHERE id = ?', [id])
+        .then(([rows, fields]) => {
+            res.render('medit.njk', {
+                flash: flash,
+                flashcolor: flashcolor,
+                meeps: rows,
+                title:  'meeps',
+                layout: 'layout.njk'
+            })
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({
+                meeps: {
+                    error: 'Error getting meeps'
+                }
+            })
+        })
+    }
+});
+
+router.post('/:id/edit', async (req, res, next) => {
+    const id = req.params.id;
+    const sql = 'UPDATE meeps SET body = ?, description= ? WHERE id = ?'
+    const meep = req.body.meep;
+    const description = req.body.description;
+    
+        await pool.promise()
+        .query(sql, [meep, description, id])
+        .then((response) => {
+            if (response[0].affectedRows==1) {
+                req.session.flash = 'Meep: [' + meep + "] successfully changed";
+                req.session.flashcolor = 'success';
+            res.redirect('/meeps/'+id);
+            } else {
+                res.status(400).json({
+                    meeps: {
+                        error: "Invalid meep"
+                    }
+                });
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                meeps: {
+                    error: "Cannot retrieve meeps"
+                }
+            });
+        });
+});
 
 module.exports = router;

@@ -5,5 +5,6 @@
 <p>{{meep.description}}</p>
 <p class="fs-6 fw-light">Created: {{meep.created_at}}</p>
 <p class="fs-6 fw-light">Updated: {{meep.updated_at}}</p>
+<a href="/meeps/{{meep.id}}/edit"><button type="button" class="btn btn-primary">medit</button></a>
 {% endfor %}
 {% endblock %}

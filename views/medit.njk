@@ -1,0 +1,14 @@
+{% extends layout %}
+{% block  content %}
+{% for meep in meeps %}
+<form action="/meeps/{{meep.id}}/edit" method="post">
+    <label for="meep"></label>
+        <div class="mb-3">
+            <input type="text" class="form-control" name="meep" id="meep" value="{{meep.body}}" placeholder="Meep a meep" required>
+            <input type="text" class="form-control" name="description" id="description" value="{{meep.description}}" placeholder="Meep a meep meeption" required>
+            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Submeep</button>
+        </div>
+    </form>
+
+{% endfor %}
+{% endblock %}
