@@ -174,7 +174,7 @@ router.get('/:id/edit', async (req, res, next) => {
 
 router.post('/:id/edit', async (req, res, next) => {
     const id = req.params.id;
-    const sql = 'UPDATE meeps SET body = ?, description= ? WHERE id = ?'
+    const sql = 'UPDATE meeps SET body = ?, description= ?, updated_at=CURRENT_TIMESTAMP WHERE id = ?'
     const meep = req.body.meep;
     const description = req.body.description;
     
@@ -201,6 +201,42 @@ router.post('/:id/edit', async (req, res, next) => {
                 }
             });
         });
+});
+
+router.get('/sort/:sort', async (req, res, next) => {
+    let sort = "ORDER BY ";
+    if (req.params.sort==1) {
+        sort+="body"
+    } else if (req.params.sort==2) {
+        sort+="updated_at"
+    } else {
+        sort+="id"
+    }
+
+    const flash = req.session.flash;
+    const flashcolor = req.session.flashcolor;
+    console.log(flash);
+    req.session.flash = null;
+    req.session.flashcolor = null;
+    await pool.promise()
+        .query('SELECT * FROM meeps '+sort)
+        .then(([rows, fields]) => {
+            res.render('meeps.njk', {
+                flash: flash,
+                flashcolor: flashcolor,
+                meeps: rows,
+                title:  'meeps',
+                layout: 'layout.njk'
+            })
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({
+                tasks: {
+                    error: 'Error getting tasks'
+                }
+            })
+        })
 });
 
 module.exports = router;

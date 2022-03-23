@@ -1,6 +1,6 @@
 Gör
 # Edit meep  DONE
-# Sort meep
+# Sort meep  DONE
 # Sound effects (Boing, metal crashing, wild trumpets) 
 
 
