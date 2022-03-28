@@ -6,9 +6,13 @@
     <label for="meep"></label>
         <div class="input-group mb-3">
             <input type="text" class="form-control" name="meep" id="meep" value="{{ meep }}" placeholder="Meep a meep" required>
-            <input type="text" class="form-control" name="description" id="description" value="{{ description }}" placeholder="Meep a meep meeption" required>
-            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Mep meep</button>
+            <input type="text" class="form-control" name="description" id="description" value="{{ description }}" maxlength="140" placeholder="Meep a meep meeption" required>
+            <div id="the-count">
+                <span id="current">0</span>
+                <span id="maximum">/ 140</span>
+            </div>
         </div>
+        <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Mep meep</button>
     </form>
 </div>
 <div class="d-flex justify-content-evenly">
@@ -22,6 +26,7 @@
     <h3>{{meep.body}}</h3>
     <a href="/meeps/{{meep.id}}/delete"><button type="button" class="btn btn-outline-danger">Demeep</button></a>
     </div>
+    <h5>{{meep.description}}</h5>
     <a href="/meeps/{{meep.id}}"><button type="button" class="btn btn-primary">meeption</button></a>
     
     </div>
@@ -34,4 +39,17 @@
         </div>
     </li>
 </main>
+<script>
+    var text = document.getElementById("description"); 
+$('textarea').keyup(function() {
+    
+    var characterCount = $(this).val().length,
+        current = $('#current'),
+        maximum = $('#maximum'),
+        theCount = $('#the-count');
+      
+    current.text(characterCount);
+    
+});
+</script>
 {% endblock %}
