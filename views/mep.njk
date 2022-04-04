@@ -1,10 +1,17 @@
 {% extends layout %}
 {% block  content %}
+<main class="container">
+    <div class="card" style="margin-top: 1rem">
 {% for meep in meeps %}
 <h3>{{meep.body}}</h3>
 <p>{{meep.description}}</p>
 <p class="fs-6 fw-light">Created: {{meep.created_at}}</p>
 <p class="fs-6 fw-light">Updated: {{meep.updated_at}}</p>
+<div class="d-flex">
 <a href="/meeps/{{meep.id}}/edit"><button type="button" class="btn btn-primary">medit</button></a>
+<a href="/meeps/{{meep.id}}/delete"><button type="button" class="btn btn-danger" style="margin-left: 0.5rem">Demeep</button></a>
+</div>
 {% endfor %}
+</div>
+</main>
 {% endblock %}

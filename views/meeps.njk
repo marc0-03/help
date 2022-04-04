@@ -7,7 +7,7 @@
         <div class="input-group mb-3">
             <input type="text" class="form-control" name="meep" id="meep" value="{{ meep }}" placeholder="Meep a meep" required>
             <input type="text" class="form-control" name="description" id="description" value="{{ description }}" maxlength="140" placeholder="Meep a meep meeption" required>
-            <div id="the-count">
+            <div>
                 <span id="current">0</span>
                 <span id="maximum">/ 140</span>
             </div>
@@ -40,16 +40,16 @@
     </li>
 </main>
 <script>
-    var text = document.getElementById("description"); 
-$('textarea').keyup(function() {
+    const textarea = document.getElementById("description");
+
+    $('input').keyup(function() {
     
     var characterCount = $(this).val().length,
-        current = $('#current'),
-        maximum = $('#maximum'),
-        theCount = $('#the-count');
-      
-    current.text(characterCount);
+      current = $('#current'),
+      maximum = $('#maximum'),
+      theCount = $('#the-count');
     
-});
+    current.text(characterCount);
+    });
 </script>
 {% endblock %}

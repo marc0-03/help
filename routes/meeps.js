@@ -33,6 +33,7 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
     const sql = 'INSERT INTO meeps (body,description) VALUES (?,?)'; 
+    console.log(req.body);
     const meep = req.body.meep;
     const description = req.body.description;
     if (meep.length < 3) {
@@ -71,6 +72,39 @@ router.post('/', async (req, res, next) => {
             }
         });
     });
+});
+
+router.post('/search', async (req, res, next) => {
+    console.log(req.body);
+    console.log(req.body.search);
+
+    const search = "SELECT * FROM meeps WHERE body LIKE '%"+req.body.search+"%'";
+    console.log(search)   
+    
+    const flash = req.session.flash;
+    const flashcolor = req.session.flashcolor;
+    console.log(flash);
+    req.session.flash = null;
+    req.session.flashcolor = null;
+    await pool.promise()
+        .query(search)
+        .then(([rows, fields]) => {
+            res.render('meeps.njk', {
+                flash: flash,
+                flashcolor: flashcolor,
+                meeps: rows,
+                title:  'meeps',
+                layout: 'layout.njk'
+            })
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({
+                tasks: {
+                    error: 'Error getting tasks'
+                }
+            })
+        })
 });
 
 router.get('/:id', async (req, res, next) => {

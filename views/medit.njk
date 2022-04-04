@@ -1,14 +1,19 @@
 {% extends layout %}
 {% block  content %}
+<main class="container">
+    <div class="card" style="margin-top: 1rem">
 {% for meep in meeps %}
 <form action="/meeps/{{meep.id}}/edit" method="post">
     <label for="meep"></label>
         <div class="mb-3">
+            <label>NAME</label>
             <input type="text" class="form-control" name="meep" id="meep" value="{{meep.body}}" placeholder="Meep a meep" required>
+            <label>TEXT</label>
             <input type="text" class="form-control" name="description" id="description" value="{{meep.description}}" placeholder="Meep a meep meeption" required>
             <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Submeep</button>
         </div>
     </form>
-
 {% endfor %}
+</div>
+</main>
 {% endblock %}
