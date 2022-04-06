@@ -11,7 +11,7 @@ router.get('/', async (req, res, next) => {
     req.session.flash = null;
     req.session.flashcolor = null;
     await pool.promise()
-        .query('SELECT * FROM meeps')
+        .query('SELECT * FROM marnyd_meeps')
         .then(([rows, fields]) => {
             res.render('meeps.njk', {
                 flash: flash,
@@ -32,7 +32,7 @@ router.get('/', async (req, res, next) => {
 });
 
 router.post('/', async (req, res, next) => {
-    const sql = 'INSERT INTO meeps (body,description) VALUES (?,?)'; 
+    const sql = 'INSERT INTO marnyd_meeps (body,description) VALUES (?,?)'; 
     console.log(req.body);
     const meep = req.body.meep;
     const description = req.body.description;
@@ -78,7 +78,7 @@ router.post('/search', async (req, res, next) => {
     console.log(req.body);
     console.log(req.body.search);
 
-    const search = "SELECT * FROM meeps WHERE body LIKE '%"+req.body.search+"%'";
+    const search = "SELECT * FROM marnyd_meeps WHERE body LIKE '%"+req.body.search+"%'";
     console.log(search)   
     
     const flash = req.session.flash;
@@ -123,7 +123,7 @@ router.get('/:id', async (req, res, next) => {
         })
     } else {
         await pool.promise()
-        .query('SELECT * FROM meeps WHERE id = ?', [id])
+        .query('SELECT * FROM marnyd_meeps WHERE id = ?', [id])
         .then(([rows, fields]) => {
             res.render('mep.njk', {
                 flash: flash,
@@ -147,7 +147,7 @@ router.get('/:id', async (req, res, next) => {
 router.get('/:id/delete', async (req, res, next) => {
     const id = req.params.id;
     await pool.promise()
-        .query('DELETE from meeps WHERE id = ?', [id])
+        .query('DELETE from marnyd_meeps WHERE id = ?', [id])
         .then((response) => {
             if (response[0].affectedRows==1) {
             req.session.flash = 'Meep deleted';
@@ -185,7 +185,7 @@ router.get('/:id/edit', async (req, res, next) => {
         })
     } else {
         await pool.promise()
-        .query('SELECT * FROM meeps WHERE id = ?', [id])
+        .query('SELECT * FROM marnyd_meeps WHERE id = ?', [id])
         .then(([rows, fields]) => {
             res.render('medit.njk', {
                 flash: flash,
@@ -208,7 +208,7 @@ router.get('/:id/edit', async (req, res, next) => {
 
 router.post('/:id/edit', async (req, res, next) => {
     const id = req.params.id;
-    const sql = 'UPDATE meeps SET body = ?, description= ?, updated_at=CURRENT_TIMESTAMP WHERE id = ?'
+    const sql = 'UPDATE marnyd_meeps SET body = ?, description= ?, updated_at=CURRENT_TIMESTAMP WHERE id = ?'
     const meep = req.body.meep;
     const description = req.body.description;
     
@@ -253,7 +253,7 @@ router.get('/sort/:sort', async (req, res, next) => {
     req.session.flash = null;
     req.session.flashcolor = null;
     await pool.promise()
-        .query('SELECT * FROM meeps '+sort)
+        .query('SELECT * FROM marnyd_meeps '+sort)
         .then(([rows, fields]) => {
             res.render('meeps.njk', {
                 flash: flash,
