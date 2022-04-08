@@ -44,11 +44,6 @@
     textarea.addEventListener('input', event => {
     const currentLength = event.currentTarget.value.length;
     document.getElementById("char-count").innerHTML = currentLength + "/140";
-    if (currentLength >= 140) {
-        document.getElementById("char-count").style.color = 'red';
-    } else {
-        document.getElementById("char-count").style.color = 'black';
-    }
 });
 </script>
 {% endblock %}
