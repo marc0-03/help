@@ -9,7 +9,7 @@ const session = require('express-session');
 require('dotenv').config();
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var APIRouter = require('./routes/API');
 var meepsRouter = require('./routes/meeps');
 
 var app = express();
@@ -38,7 +38,7 @@ nunjucks.configure('views', {
 })
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/API', APIRouter);
 app.use('/meeps', meepsRouter);
 
 module.exports = app;
